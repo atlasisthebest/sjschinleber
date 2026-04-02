@@ -343,6 +343,14 @@ img {
   color: var(--color-text-light);
 }
 
+.book-cover {
+  flex-shrink: 0;
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .publication-info h3 {
   font-family: var(--font-heading);
   font-size: 1.25rem;
