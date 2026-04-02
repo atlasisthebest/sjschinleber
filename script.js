@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close mobile menu
     siteNav.classList.remove('open');
 
-    // Re-trigger handwriting animation when returning to home
+    // Re-trigger handwriting and marketing box animation when returning to home
     if (tabId === 'home') {
       const letters = document.querySelectorAll('.hw-word span');
+      marketingBox.classList.remove('visible');
       letters.forEach(letter => {
         letter.style.animation = 'none';
         letter.offsetHeight;
@@ -47,11 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handwriting animation — stagger each letter
+  const marketingBox = document.getElementById('marketingBox');
+
   function animateHandwriting() {
     const letters = document.querySelectorAll('.hw-word span');
     letters.forEach((letter, i) => {
       letter.style.animationDelay = `${i * 0.25}s`;
     });
+    // Show marketing box after handwriting finishes
+    const totalTime = letters.length * 0.25 * 1000;
+    marketingBox.classList.remove('visible');
+    setTimeout(() => {
+      marketingBox.classList.add('visible');
+    }, totalTime);
   }
   animateHandwriting();
 
