@@ -55,12 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
     letters.forEach((letter, i) => {
       letter.style.animationDelay = `${i * 0.25}s`;
     });
-    // Show marketing box after handwriting finishes
-    const totalTime = letters.length * 0.25 * 1000;
+    // Show marketing box 1 second after page loads
     marketingBox.classList.remove('visible');
     setTimeout(() => {
       marketingBox.classList.add('visible');
-    }, totalTime);
+    }, 1000);
   }
   animateHandwriting();
 
