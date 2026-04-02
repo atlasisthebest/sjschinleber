@@ -310,16 +310,11 @@ img {
   align-items: start;
 }
 
-.author-photo-placeholder {
+.author-photo {
   width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--color-border);
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  color: var(--color-text-light);
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* ===== Resume List ===== */
