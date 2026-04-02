@@ -164,6 +164,42 @@ img {
   color: #ffffff;
 }
 
+.hero h1.handwriting {
+  font-family: 'Caveat', cursive;
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hw-word {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.hw-word span {
+  display: inline-block;
+  opacity: 0;
+  animation: writeLetter 0.15s ease forwards;
+}
+
+@keyframes writeLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) rotate(-3deg);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(-2px) rotate(1deg);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
 .tagline {
   font-family: var(--font-heading);
   font-style: italic;

@@ -18,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close mobile menu
     siteNav.classList.remove('open');
 
+    // Re-trigger handwriting animation when returning to home
+    if (tabId === 'home') {
+      const letters = document.querySelectorAll('.hw-word span');
+      letters.forEach(letter => {
+        letter.style.animation = 'none';
+        letter.offsetHeight;
+        letter.style.animation = '';
+      });
+      animateHandwriting();
+    }
+
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -34,6 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
   menuToggle.addEventListener('click', () => {
     siteNav.classList.toggle('open');
   });
+
+  // Handwriting animation — stagger each letter
+  function animateHandwriting() {
+    const letters = document.querySelectorAll('.hw-word span');
+    letters.forEach((letter, i) => {
+      letter.style.animationDelay = `${i * 0.08}s`;
+    });
+  }
+  animateHandwriting();
 
   // Contact form handling — opens user's email client with fields pre-filled
   const form = document.getElementById('contactForm');
