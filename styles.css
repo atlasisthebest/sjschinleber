@@ -209,43 +209,20 @@ img {
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* ===== Typewriter Bar ===== */
-.typewriter-bar {
+/* ===== Typewriter Image ===== */
+.typewriter-img {
   width: 100%;
-  background: linear-gradient(
-    to bottom,
-    #1a1a1a 0%,
-    #2a2a2a 4%,
-    #333333 8%,
-    #2a2a2a 12%,
-    #1a1a1a 16%,
-    #0d0d0d 20%,
-    #1a1a1a 24%,
-    #f5f0e6 26%,
-    #faf6f0 30%,
-    #faf6f0 70%,
-    #f5f0e6 74%,
-    #1a1a1a 76%,
-    #0d0d0d 80%,
-    #1a1a1a 84%,
-    #2a2a2a 88%,
-    #333333 92%,
-    #2a2a2a 96%,
-    #1a1a1a 100%
-  );
-  padding: 0;
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  line-height: 0;
 }
 
-.typewriter-inner {
-  padding: 48px 24px;
-  text-align: center;
-}
-
-.typewriter-bar .handwriting {
-  color: #1a1a1a;
+.typewriter-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  opacity: 0.35;
+  filter: brightness(1.8) contrast(0.9);
 }
 
 /* ===== Marketing Box ===== */
