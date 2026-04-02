@@ -409,8 +409,9 @@ img {
 }
 
 .event-info h3 {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
   margin-bottom: 2px;
 }
 
