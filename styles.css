@@ -165,9 +165,9 @@ img {
 }
 
 .hero h1.handwriting {
-  font-family: 'Caveat', cursive;
+  font-family: 'Dancing Script', cursive;
   font-size: 4rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
 }
 
@@ -179,24 +179,25 @@ img {
 .hw-word span {
   display: inline-block;
   opacity: 0;
-  animation: writeLetter 0.15s ease forwards;
+  animation: writeLetter 0.4s ease forwards;
 }
 
 @keyframes writeLetter {
   0% {
     opacity: 0;
-    transform: translateY(8px) rotate(-3deg);
-    filter: blur(2px);
+    transform: translateY(12px) scale(0.9);
   }
-  60% {
-    opacity: 0.7;
-    transform: translateY(-2px) rotate(1deg);
-    filter: blur(0);
+  40% {
+    opacity: 0.5;
+    transform: translateY(-2px) scale(1.02);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateY(1px) scale(1);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) rotate(0deg);
-    filter: blur(0);
+    transform: translateY(0) scale(1);
   }
 }
 
