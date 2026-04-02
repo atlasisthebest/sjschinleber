@@ -221,8 +221,8 @@ img {
   height: auto;
   object-fit: cover;
   display: block;
-  opacity: 0.35;
-  filter: brightness(1.8) contrast(0.9);
+  opacity: 0.5;
+  filter: invert(1) brightness(1.5);
 }
 
 /* ===== Marketing Box ===== */
