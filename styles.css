@@ -476,6 +476,15 @@ img {
   margin-bottom: 0;
 }
 
+.event-info a {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.event-info a:hover {
+  color: var(--color-text);
+}
+
 .cta-text {
   margin-top: 16px;
 }
