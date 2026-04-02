@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateHandwriting() {
     const letters = document.querySelectorAll('.hw-word span');
     letters.forEach((letter, i) => {
-      letter.style.animationDelay = `${i * 0.15}s`;
+      letter.style.animationDelay = `${i * 0.25}s`;
     });
   }
   animateHandwriting();
