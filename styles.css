@@ -239,10 +239,10 @@ img {
 /* ===== Page Content ===== */
 .page-content {
   max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 56px 24px 80px;
+  margin: 40px auto 60px;
+  padding: 48px 40px;
   background: #faf6f0;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
 }
 
 .page-content h1 {
@@ -303,8 +303,8 @@ img {
   gap: 24px;
   align-items: baseline;
   padding: 14px 20px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: #ffffff;
+  border: 1px solid #e0d8cc;
   border-radius: 10px;
 }
 
@@ -357,8 +357,8 @@ img {
   gap: 28px;
   align-items: start;
   padding: 24px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: #ffffff;
+  border: 1px solid #e0d8cc;
   border-radius: 12px;
 }
 
@@ -408,8 +408,8 @@ img {
   gap: 20px;
   align-items: center;
   padding: 18px 22px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: #ffffff;
+  border: 1px solid #e0d8cc;
   border-radius: 10px;
 }
 
@@ -480,9 +480,9 @@ img {
   padding: 10px 14px;
   font-family: var(--font-body);
   font-size: 1rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid #e0d8cc;
   border-radius: 8px;
-  background: var(--color-surface);
+  background: #ffffff;
   color: var(--color-text);
   transition: border-color 0.2s;
 }
