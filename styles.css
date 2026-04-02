@@ -6,7 +6,7 @@
 }
 
 :root {
-  --color-bg: #eef2f6;
+  --color-bg: #001a35;
   --color-surface: #ffffff;
   --color-text: #1a2a3a;
   --color-text-light: #4a6070;
@@ -241,6 +241,8 @@ img {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 56px 24px 80px;
+  background: #faf6f0;
+  border-radius: 0 0 12px 12px;
 }
 
 .page-content h1 {
@@ -500,9 +502,9 @@ img {
   text-align: center;
   padding: 24px;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  background: var(--color-navy);
-  border-top: 2px solid var(--color-accent);
+  color: #555;
+  background: #faf6f0;
+  border-top: 1px solid #e0d8cc;
 }
 
 /* ===== Responsive ===== */
