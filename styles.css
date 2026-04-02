@@ -180,7 +180,7 @@ img {
 .hw-word span {
   display: inline-block;
   opacity: 0;
-  animation: writeLetter 0.6s ease forwards;
+  animation: writeLetter 0.3s ease forwards;
 }
 
 @keyframes writeLetter {

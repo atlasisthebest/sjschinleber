@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateHandwriting() {
     const letters = document.querySelectorAll('.hw-word span');
     letters.forEach((letter, i) => {
-      letter.style.animationDelay = `${i * 0.25}s`;
+      letter.style.animationDelay = `${i * 0.1}s`;
     });
     // Show marketing box 1 second after page loads
     marketingBox.classList.remove('visible');
