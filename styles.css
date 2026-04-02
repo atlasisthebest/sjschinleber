@@ -382,7 +382,7 @@ img {
 }
 
 .event-card.past {
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .event-date {
@@ -393,19 +393,18 @@ img {
 
 .event-date .month {
   display: block;
-  font-size: 0.78rem;
+  font-size: 1rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .event-date .day {
   display: block;
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1.1;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
 }
 
 .event-info h3 {
@@ -416,8 +415,8 @@ img {
 }
 
 .event-info p {
-  font-size: 0.9rem;
-  color: var(--color-text-light);
+  font-size: 1rem;
+  color: var(--color-text);
   margin-bottom: 0;
 }
 
