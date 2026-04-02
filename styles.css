@@ -13,8 +13,8 @@
   --color-accent: #9aa8b5;
   --color-accent-hover: #7d8d9c;
   --color-border: #c8d4de;
-  --color-navy: #003060;
-  --color-navy-light: #1a4472;
+  --color-navy: #001a35;
+  --color-navy-light: #0d2e50;
   --font-heading: 'Libre Baskerville', Georgia, serif;
   --font-body: 'Inter', 'Segoe UI', sans-serif;
   --max-width: 960px;
@@ -57,8 +57,8 @@ img {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-navy);
-  border-bottom: 2px solid var(--color-accent);
+  background: #faf6f0;
+  border-bottom: 1px solid #e0d8cc;
 }
 
 .header-inner {
@@ -75,12 +75,12 @@ img {
   font-family: var(--font-heading);
   font-size: 1.35rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #1a1a1a;
   letter-spacing: 0.01em;
 }
 
 .site-logo:hover {
-  color: var(--color-accent);
+  color: #444;
 }
 
 .site-nav {
@@ -93,17 +93,17 @@ img {
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.75);
+  color: #555;
   transition: background 0.2s, color 0.2s;
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
 }
 
 .nav-link.active {
-  background: var(--color-accent);
+  background: var(--color-navy);
   color: #fff;
 }
 
@@ -122,7 +122,7 @@ img {
   display: block;
   width: 24px;
   height: 2px;
-  background: #ffffff;
+  background: #1a1a1a;
   border-radius: 2px;
   transition: transform 0.3s, opacity 0.3s;
 }
@@ -517,10 +517,10 @@ img {
     top: var(--header-height);
     left: 0;
     right: 0;
-    background: var(--color-navy);
+    background: #faf6f0;
     flex-direction: column;
     padding: 12px 24px 20px;
-    border-bottom: 2px solid var(--color-accent);
+    border-bottom: 1px solid #e0d8cc;
     gap: 4px;
   }
 
