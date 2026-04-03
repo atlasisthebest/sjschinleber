@@ -147,16 +147,6 @@ img {
 }
 
 /* ===== Hero (Home) ===== */
-.hero {
-  max-width: 100%;
-  margin: 0;
-  padding: 80px 24px 40px;
-  text-align: center;
-  background: var(--color-navy);
-  color: #ffffff;
-  position: relative;
-  overflow: visible;
-}
 
 .hero h1 {
   font-family: var(--font-heading);
@@ -212,17 +202,13 @@ img {
 }
 
 /* ===== Typewriter Image ===== */
-.typewriter-img {
+.typewriter-section {
   position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  line-height: 0;
-  z-index: 0;
-  margin-top: -60px;
+  text-align: center;
 }
 
-.typewriter-img img {
+.typewriter-bg {
   width: 100%;
   height: auto;
   display: block;
@@ -230,9 +216,13 @@ img {
   filter: invert(1) brightness(2) sepia(0.15) saturate(0.6) contrast(1.8);
 }
 
-.hero-text {
-  position: relative;
+.typewriter-section .hero-text {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
+  width: 100%;
 }
 
 .hero-text {
