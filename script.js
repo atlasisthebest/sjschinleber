@@ -3,19 +3,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const panels = document.querySelectorAll('.tab-panel');
   const menuToggle = document.querySelector('.menu-toggle');
   const siteNav = document.querySelector('.site-nav');
+  const header = document.querySelector('.site-header');
+  const marketingBox = document.getElementById('marketingBox');
+
+  // Scroll-based header style
+  function updateHeader() {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  // Scroll reveal observer
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger sibling reveals
+        const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+        const index = Array.from(siblings).indexOf(entry.target);
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 80);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  function observeReveals() {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      revealObserver.observe(el);
+    });
+  }
 
   function switchTab(tabId) {
-    // Update panels
     panels.forEach(panel => {
       panel.classList.toggle('active', panel.id === tabId);
     });
 
-    // Update nav links
     document.querySelectorAll('.nav-link').forEach(link => {
       link.classList.toggle('active', link.dataset.tab === tabId);
     });
 
-    // Close mobile menu
     siteNav.classList.remove('open');
 
     // Re-trigger handwriting and marketing box animation when returning to home
@@ -30,11 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
       animateHandwriting();
     }
 
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Re-observe reveals in the new tab
+    requestAnimationFrame(() => {
+      observeReveals();
+    });
   }
 
-  // Handle all tab links (nav links, buttons, inline links)
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -42,28 +72,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mobile menu toggle
   menuToggle.addEventListener('click', () => {
     siteNav.classList.toggle('open');
   });
 
-  // Handwriting animation — stagger each letter
-  const marketingBox = document.getElementById('marketingBox');
-
+  // Handwriting animation
   function animateHandwriting() {
     const letters = document.querySelectorAll('.hw-word span');
     letters.forEach((letter, i) => {
-      letter.style.animationDelay = `${i * 0.1}s`;
+      letter.style.animationDelay = `${i * 0.09}s`;
     });
-    // Show marketing box 1 second after page loads
     marketingBox.classList.remove('visible');
     setTimeout(() => {
       marketingBox.classList.add('visible');
-    }, 1000);
+    }, 1200);
   }
   animateHandwriting();
 
-  // Contact form handling — opens user's email client with fields pre-filled
+  // Initial reveal observation
+  observeReveals();
+
+  // Contact form handling
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
