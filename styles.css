@@ -298,22 +298,16 @@ a.featured-link:hover {
 .marketing-box {
   max-width: 620px;
   margin: -20px auto 60px;
-  padding: 36px 40px;
-  background: #faf6f0;
+  padding: 28px 32px;
+  background: rgba(250, 246, 240, 0.08);
+  border: 1px solid rgba(250, 246, 240, 0.15);
   border-radius: 12px;
   text-align: center;
 }
 
-.marketing-box h2 {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  color: var(--color-navy);
-  margin-bottom: 12px;
-}
-
 .marketing-box p {
   font-size: 1rem;
-  color: #4a4a4a;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 20px;
   line-height: 1.7;
 }
