@@ -141,6 +141,10 @@ img {
   display: block;
 }
 
+#home {
+  position: relative;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -212,6 +216,18 @@ img {
 .hero-text {
   position: relative;
   z-index: 1;
+}
+
+/* ===== Quill Pen ===== */
+.quill-pen {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  width: 80px;
+  height: 200px;
+  transform: rotate(-25deg);
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 /* ===== Marketing Box ===== */
