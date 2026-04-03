@@ -493,6 +493,23 @@ img {
   margin-top: 16px;
 }
 
+/* ===== CTA Box ===== */
+.cta-box {
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: #ffffff;
+  border: 1px solid #e0d8cc;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.cta-box p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-navy);
+  margin-bottom: 16px;
+}
+
 /* ===== Contact Form ===== */
 .contact-form {
   max-width: 560px;
@@ -537,8 +554,8 @@ img {
 /* ===== Footer ===== */
 .site-footer {
   text-align: center;
-  padding: 24px;
-  font-size: 0.85rem;
+  padding: 10px 24px;
+  font-size: 0.8rem;
   color: #555;
   background: #faf6f0;
   border-top: 1px solid #e0d8cc;
