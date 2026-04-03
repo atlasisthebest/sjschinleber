@@ -496,18 +496,29 @@ img {
 /* ===== CTA Box ===== */
 .cta-box {
   margin-top: 36px;
-  padding: 28px 32px;
-  background: #ffffff;
-  border: 1px solid #e0d8cc;
+  padding: 32px 36px;
+  background: var(--color-navy);
   border-radius: 12px;
   text-align: center;
 }
 
 .cta-box p {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 18px;
+}
+
+.cta-box .btn {
+  background: #faf6f0;
   color: var(--color-navy);
-  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.cta-box .btn:hover {
+  background: #ffffff;
+  color: var(--color-navy);
 }
 
 /* ===== Contact Form ===== */
