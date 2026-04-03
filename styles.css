@@ -218,15 +218,14 @@ img {
   z-index: 1;
 }
 
-/* ===== Quill Pen ===== */
-.quill-pen {
+/* ===== Ink & Quill ===== */
+.ink-quill {
   position: absolute;
-  bottom: 20px;
-  right: 40px;
-  width: 80px;
+  bottom: 10px;
+  right: 30px;
+  width: 180px;
   height: 200px;
-  transform: rotate(-25deg);
-  opacity: 0.8;
+  opacity: 0.9;
   pointer-events: none;
 }
 
