@@ -223,12 +223,11 @@ img {
 }
 
 .typewriter-img img {
-  width: 70%;
-  max-width: 700px;
+  width: 100%;
   height: auto;
   display: block;
-  opacity: 0.15;
-  filter: invert(1) brightness(2.5);
+  opacity: 0.3;
+  filter: invert(1) brightness(2) sepia(0.15) saturate(0.6) contrast(1.8);
 }
 
 .hero-text {
