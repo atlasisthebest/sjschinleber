@@ -7,11 +7,286 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #0a1628;
+  --color-surface: #111d32;
+  --color-text: #1a2a3a;
+  --color-text-light: #5a6a7a;
+  --color-gold: #c4a265;
+  --color-gold-hover: #d4b575;
+  --color-cream: #f5f0e8;
+  --color-cream-light: #faf7f2;
+  --color-navy: #0a1628;
+  --color-navy-light: #132238;
+  --color-border: #e2ddd4;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-hero: 'Cormorant Garamond', Georgia, serif;
+  --max-width: 980px;
+  --header-height: 72px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--color-gold); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--color-gold-hover); }
+img { max-width: 100%; display: block; }
+
+/* ===== Scroll Reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== Header & Navigation ===== */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: #0f1f38;
+  border-bottom: 2px solid var(--color-gold);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+.site-header.scrolled { background: #0a1628; box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 32px;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--color-cream); letter-spacing: 0.02em; }
+.site-logo:hover { color: var(--color-gold); }
+
+.site-nav { display: flex; gap: 4px; }
+
+.nav-link {
+  font-size: 1rem; font-weight: 600; padding: 8px 16px; border-radius: 6px;
+  color: rgba(245,240,232,0.65); letter-spacing: 0.03em; transition: all var(--transition);
+}
+.nav-link:hover { color: var(--color-cream); background: rgba(245,240,232,0.08); }
+.nav-link.active { color: var(--color-gold); background: rgba(196,162,101,0.12); }
+
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+.menu-toggle span { display: block; width: 22px; height: 2px; background: var(--color-cream); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+
+/* ===== Main Content ===== */
+.content { flex: 1; margin-top: var(--header-height); }
+.tab-panel { display: none; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  min-height: calc(70vh - var(--header-height));
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 32px;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(196,162,101,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-content { position: relative; text-align: center; z-index: 1; }
+.hero-overline { font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 24px; }
+.hero h1.handwriting { font-family: var(--font-hero); font-size: 5rem; font-weight: 300; font-style: italic; letter-spacing: 0.03em; color: var(--color-cream); line-height: 1.2; }
+.hw-word { display: inline-block; margin-right: 0.25em; }
+.hw-word span { display: inline-block; opacity: 0; animation: writeLetter 0.4s ease forwards; }
+@keyframes writeLetter {
+  0% { opacity: 0; transform: translateY(16px) scale(0.95); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.hero-rule { width: 60px; height: 2px; background: var(--color-gold); margin: 32px auto 0; opacity: 0; animation: fadeSlideUp 0.8s ease 2.8s forwards; }
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== Marketing Box ===== */
+.marketing-box { max-width: 640px; margin: 0 auto 72px; padding: 0 32px; opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.marketing-box.visible { opacity: 1; transform: translateY(0); }
+.marketing-inner { padding: 32px 36px; background: rgba(196,162,101,0.06); border: 1px solid rgba(196,162,101,0.15); border-radius: 16px; text-align: center; }
+.marketing-box p { font-size: 1rem; color: rgba(245,240,232,0.75); margin-bottom: 20px; line-height: 1.8; }
+
+/* ===== Featured Section ===== */
+.featured-section { max-width: var(--max-width); margin: 0 auto 80px; padding: 0 32px; }
+.section-label { font-family: var(--font-body); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-gold); text-align: center; margin-bottom: 32px; }
+.featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.featured-card { background: rgba(245,240,232,0.04); border: 1px solid rgba(245,240,232,0.08); border-radius: 16px; padding: 28px 24px; text-align: left; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.featured-card:hover { background: rgba(245,240,232,0.08); border-color: rgba(196,162,101,0.25); transform: translateY(-4px); }
+.featured-label { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-gold); margin-bottom: 14px; padding: 4px 10px; background: rgba(196,162,101,0.1); border-radius: 4px; }
+.featured-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; color: var(--color-cream); margin-bottom: 8px; line-height: 1.4; }
+.featured-card p { font-size: 0.88rem; color: rgba(245,240,232,0.5); margin: 0; }
+
+/* ===== Page Banner ===== */
+.page-banner { background: var(--color-bg); padding: 64px 32px 48px; text-align: center; position: relative; }
+.page-banner::after { content: ''; display: block; width: 48px; height: 2px; background: var(--color-gold); margin: 24px auto 0; }
+.page-banner h1 { font-family: var(--font-display); font-size: 2.8rem; font-weight: 500; color: var(--color-cream); letter-spacing: 0.01em; }
+.page-banner p { max-width: 560px; margin: 16px auto 0; font-size: 1rem; color: rgba(245,240,232,0.6); line-height: 1.8; }
+
+/* ===== Button ===== */
+.btn { display: inline-block; font-family: var(--font-body); font-size: 0.88rem; font-weight: 600; padding: 14px 36px; background: var(--color-gold); color: var(--color-navy); border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.03em; transition: all var(--transition); }
+.btn:hover { background: var(--color-gold-hover); color: var(--color-navy); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,162,101,0.25); }
+.btn-small { font-size: 0.82rem; padding: 10px 22px; margin-top: 12px; }
+.btn-cta { background: var(--color-cream); color: var(--color-navy); font-weight: 700; padding: 16px 40px; font-size: 0.92rem; }
+.btn-cta:hover { background: #fff; color: var(--color-navy); box-shadow: 0 8px 30px rgba(245,240,232,0.2); }
+
+/* ===== Page Content ===== */
+.page-content { max-width: var(--max-width); margin: 0 auto 60px; padding: 48px 44px 56px; background: var(--color-cream-light); border-radius: 20px; border: 2px solid var(--color-gold); }
+.page-content h1 { font-family: var(--font-display); font-size: 2.4rem; font-weight: 500; margin-bottom: 28px; color: var(--color-navy); }
+.page-content h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; margin-top: 48px; margin-bottom: 20px; color: var(--color-navy); padding-bottom: 10px; border-bottom: 1px solid var(--color-border); }
+.page-content p { margin-bottom: 18px; color: var(--color-text-light); }
+
+/* ===== About Page ===== */
+.about-page { padding-top: 48px; overflow: hidden; }
+.about-hero-block { display: flex; align-items: center; gap: 36px; padding: 0 0 36px; margin-bottom: 36px; border-bottom: 1px solid var(--color-border); }
+.author-photo { width: 180px; height: auto; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.about-intro { flex: 1; }
+.about-name { font-family: var(--font-display); font-size: 1.8rem; font-weight: 500; color: var(--color-navy); margin-bottom: 4px; }
+.about-tagline { font-size: 0.92rem; font-weight: 400; color: var(--color-gold); letter-spacing: 0.08em; }
+.about-text p { font-size: 1.02rem; line-height: 1.85; color: var(--color-text-light); }
+.about-text p:first-child::first-letter { font-family: var(--font-display); font-size: 3.4rem; float: left; line-height: 0.85; padding-right: 10px; padding-top: 6px; color: var(--color-navy); font-weight: 600; }
+
+/* ===== Resume List ===== */
+.resume-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px; }
+.resume-item { display: flex; gap: 24px; align-items: baseline; padding: 16px 22px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 12px; transition: all var(--transition); }
+.resume-item:hover { border-color: var(--color-gold); box-shadow: 0 2px 12px rgba(196,162,101,0.08); }
+.resume-date { flex-shrink: 0; width: 150px; font-size: 0.85rem; font-weight: 600; color: var(--color-gold); white-space: nowrap; }
+.resume-detail h3 { font-family: var(--font-display); font-size: 1.02rem; font-weight: 500; margin-bottom: 2px; color: var(--color-text); }
+.resume-detail p { font-size: 0.92rem; margin-bottom: 4px; color: var(--color-text-light); }
+.resume-detail p:last-child { margin-bottom: 0; }
+
+/* ===== Publications ===== */
+.publication-list { display: flex; flex-direction: column; gap: 28px; }
+.publication-card { display: flex; gap: 28px; align-items: start; padding: 28px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 16px; transition: all var(--transition); }
+.publication-card:hover { border-color: var(--color-gold); box-shadow: 0 4px 24px rgba(196,162,101,0.1); transform: translateY(-2px); }
+.book-cover-placeholder { flex-shrink: 0; width: 130px; height: 185px; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 500; color: var(--color-gold); letter-spacing: 0.05em; }
+.book-cover { flex-shrink: 0; width: 130px; height: auto; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); transition: transform var(--transition); }
+.publication-card:hover .book-cover { transform: scale(1.03); }
+.publication-info h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; margin-bottom: 6px; color: var(--color-text); }
+.pub-meta { font-size: 0.85rem; color: var(--color-gold) !important; font-weight: 500; margin-bottom: 12px !important; }
+.section-subtitle { font-size: 1rem; font-style: italic; color: var(--color-text-light); margin-bottom: 24px; }
+
+/* ===== Presentation Topics ===== */
+.topics-box { margin-bottom: 40px; padding: 32px 36px; background: #ffffff; border: 1px solid var(--color-border); border-left: 4px solid var(--color-gold); border-radius: 12px; }
+.topics-box h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; color: var(--color-text); }
+.topics-box .topics-intro { font-style: italic; color: var(--color-text-light); margin-bottom: 20px; }
+.topics-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 24px; list-style: none; padding: 0; margin: 0; }
+.topics-list li { position: relative; padding-left: 18px; font-size: 0.95rem; color: var(--color-text); line-height: 1.5; }
+.topics-list li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; background: var(--color-gold); border-radius: 50%; }
+
+/* ===== Events ===== */
+.event-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.event-card { display: flex; gap: 24px; align-items: center; padding: 20px 24px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 12px; transition: all var(--transition); }
+.event-card:hover { border-color: var(--color-gold); box-shadow: 0 2px 12px rgba(196,162,101,0.08); }
+.event-card.upcoming { border-color: var(--color-gold); background: #fffdf8; }
+.event-date { flex-shrink: 0; width: 60px; text-align: center; padding: 8px 0; border-right: 2px solid var(--color-gold); margin-right: 4px; }
+.event-date .day { display: block; font-size: 0.85rem; font-weight: 600; line-height: 1.4; color: var(--color-text); }
+.event-info h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 500; margin-bottom: 3px; color: var(--color-text); }
+.event-info p { font-size: 0.92rem; color: var(--color-text-light); margin-bottom: 0; }
+.new-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #7a5c1e; background: #faeeda; padding: 2px 8px; border-radius: 3px; margin-left: 8px; vertical-align: middle; }
+
+/* ===== CTA Box ===== */
+.cta-box { margin-top: 40px; padding: 40px 44px; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%); border-radius: 16px; text-align: center; position: relative; overflow: hidden; }
+.cta-box::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(196,162,101,0.1) 0%, transparent 70%); pointer-events: none; }
+.cta-box p { font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; color: var(--color-cream); margin-bottom: 22px; position: relative; }
+
+/* ===== Contact Form ===== */
+.contact-form { max-width: 600px; margin: 0 auto; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { margin-bottom: 22px; }
+.form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; color: var(--color-text); letter-spacing: 0.03em; }
+.form-group input, .form-group textarea { width: 100%; padding: 12px 16px; font-family: var(--font-body); font-size: 0.95rem; border: 1px solid var(--color-border); border-radius: 10px; background: #ffffff; color: var(--color-text); transition: border-color var(--transition), box-shadow var(--transition); }
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px rgba(196,162,101,0.12); }
+.form-group textarea { resize: vertical; }
+
+/* ===== Footer ===== */
+.site-footer { text-align: center; padding: 24px 32px; background: var(--color-bg); border-top: 1px solid rgba(196,162,101,0.1); }
+.footer-inner { max-width: var(--max-width); margin: 0 auto; }
+.site-footer p { font-size: 0.78rem; color: rgba(245,240,232,0.35); letter-spacing: 0.04em; }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+  .site-nav { display: none; position: absolute; top: var(--header-height); left: 0; right: 0; background: rgba(10,22,40,0.98); backdrop-filter: blur(20px); flex-direction: column; padding: 12px 24px 20px; border-bottom: 1px solid rgba(196,162,101,0.12); gap: 4px; }
+  .site-nav.open { display: flex; }
+  .nav-link { padding: 12px 16px; }
+  .hero h1.handwriting { font-size: 2.8rem; }
+  .hero { min-height: 50vh; padding: 48px 24px; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .about-hero-block { flex-direction: column; text-align: center; }
+  .author-photo { width: 160px; height: 160px; }
+  .page-content { margin: 0 12px 40px; padding: 32px 24px 40px; border-radius: 16px; }
+  .page-banner { padding: 48px 24px 36px; }
+  .page-banner h1 { font-size: 2rem; }
+  .resume-item { flex-direction: column; gap: 4px; }
+  .resume-date { width: auto; }
+  .publication-card { flex-direction: column; align-items: center; text-align: center; }
+  .event-card { padding: 16px 18px; }
+  .form-row { grid-template-columns: 1fr; }
+  .cta-box { padding: 32px 24px; }
+  .topics-list { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .page-content { margin: 0 24px 60px; }
+}
+
+/* ===== Blog ===== */
+.blog-list { display: flex; flex-direction: column; gap: 40px; }
+.blog-post { background: #ffffff; border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; transition: all var(--transition); }
+.blog-post:hover { border-color: var(--color-gold); box-shadow: 0 4px 24px rgba(196,162,101,0.1); }
+.blog-post-header { padding: 32px 36px 20px; border-bottom: 1px solid var(--color-border); }
+.blog-post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.blog-date { font-size: 0.78rem; font-weight: 600; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; }
+.blog-tag { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #7a5c1e; background: #faeeda; padding: 3px 10px; border-radius: 4px; }
+.blog-post-header h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; color: var(--color-navy); line-height: 1.3; }
+.blog-post-body { padding: 28px 36px 36px; }
+.blog-post-body p { font-size: 0.97rem; line-height: 1.85; color: var(--color-text-light); margin-bottom: 18px; }
+.blog-post-body p:last-child { margin-bottom: 0; }
+.blog-post-body blockquote { margin: 24px 0; padding: 18px 24px; background: #faf7f2; border-left: 3px solid var(--color-gold); border-radius: 0 8px 8px 0; }
+.blog-post-body blockquote p { font-style: italic; color: var(--color-text); margin-bottom: 0; font-size: 0.95rem; }
+.blog-post-body ul { margin: 0 0 18px 0; padding-left: 0; list-style: none; }
+.blog-post-body ul li { position: relative; padding-left: 20px; font-size: 0.97rem; color: var(--color-text-light); line-height: 1.7; margin-bottom: 6px; }
+.blog-post-body ul li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; background: var(--color-gold); border-radius: 50%; }
+.blog-post-body strong { font-weight: 600; color: var(--color-text); }
+.blog-post-body em { font-style: italic; }
+@media (max-width: 768px) {
+  .blog-post-header { padding: 24px 22px 16px; }
+  .blog-post-body { padding: 20px 22px 28px; }
+  .blog-post-header h2 { font-size: 1.3rem; }
+}
+  </style>
 </head>
 <body>
 
-  <!-- Navigation -->
   <header class="site-header">
     <div class="header-inner">
       <a href="#" class="site-logo" data-tab="home">S.J. Schinleber, Ph.D.</a>
@@ -24,6 +299,7 @@
         <a href="#" class="nav-link" data-tab="publications">Publications</a>
         <a href="#" class="nav-link" data-tab="presentations">Presentations</a>
         <a href="#" class="nav-link" data-tab="about">CV</a>
+        <a href="#" class="nav-link" data-tab="blog">Blog</a>
         <a href="#" class="nav-link" data-tab="contact">Contact</a>
       </nav>
     </div>
@@ -44,21 +320,19 @@
           <div class="hero-rule"></div>
         </div>
       </div>
-
       <div class="marketing-box" id="marketingBox">
         <div class="marketing-inner">
           <p>Invite Dr. Schinleber as a guest speaker, expert panelist, or workshop leader. Topics include Holocaust education, WWII history, genocide studies, democracy, and the writing craft.</p>
           <a href="#" class="btn" data-tab="contact">Get in Touch</a>
         </div>
       </div>
-
       <div class="featured-section">
         <div class="section-label">What's Next</div>
         <div class="featured-grid">
           <div class="featured-card reveal">
             <span class="featured-label">Upcoming Event</span>
-            <h3>The Holocaust Represented through the Art of Samuel Bak</h3>
-            <p>Northbrook Public Library &middot; May 2026</p>
+            <h3>Examining the Holocaust through the Art of Samuel Bak</h3>
+            <p>Rolling Meadows Public Library &middot; January 27, 2027</p>
           </div>
           <div class="featured-card reveal">
             <span class="featured-label">New Book</span>
@@ -81,219 +355,52 @@
         <p>Author, educator, and public speaker with six advanced degrees, decades of teaching experience, and a record of published works, grants, and international scholarship.</p>
       </div>
       <div class="page-content">
-
         <h2 class="reveal">Education</h2>
         <div class="resume-list">
-          <div class="resume-item reveal">
-            <span class="resume-date">2026</span>
-            <div class="resume-detail">
-              <h3>Arizona State University, Tempe</h3>
-              <p>Certificate in Genocide Studies</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2025</span>
-            <div class="resume-detail">
-              <h3>Arizona State University, Tempe &amp; National WWII Museum, New Orleans</h3>
-              <p>MA — WWII Studies</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2008</span>
-            <div class="resume-detail">
-              <h3>National Lewis University, Chicago</h3>
-              <p>MAT — English &amp; Language Arts (Endorsements: English, Language Arts, Journalism)</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1987</span>
-            <div class="resume-detail">
-              <h3>New York University, New York</h3>
-              <p>PhD — Culture &amp; Society</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1983</span>
-            <div class="resume-detail">
-              <h3>New York University, New York</h3>
-              <p>MA — Culture &amp; Society</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1974</span>
-            <div class="resume-detail">
-              <h3>University of York, York, England</h3>
-              <p>BA, Honors — English &amp; Related Literatures</p>
-            </div>
-          </div>
+          <div class="resume-item reveal"><span class="resume-date">2026</span><div class="resume-detail"><h3>Arizona State University, Tempe</h3><p>Certificate in Genocide Studies</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2025</span><div class="resume-detail"><h3>Arizona State University, Tempe &amp; National WWII Museum, New Orleans</h3><p>MA — WWII Studies</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2008</span><div class="resume-detail"><h3>National Lewis University, Chicago</h3><p>MAT — English &amp; Language Arts</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1987</span><div class="resume-detail"><h3>New York University, New York</h3><p>PhD — Culture &amp; Society</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1983</span><div class="resume-detail"><h3>New York University, New York</h3><p>MA — Culture &amp; Society</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1974</span><div class="resume-detail"><h3>University of York, York, England</h3><p>BA, Honors — English &amp; Related Literatures</p></div></div>
         </div>
-
         <h2 class="reveal">Professional Experience</h2>
         <div class="resume-list">
-          <div class="resume-item reveal">
-            <span class="resume-date">2016 – Present</span>
-            <div class="resume-detail">
-              <h3>Northshore Country Day School, Winnetka</h3>
-              <p>Middle School English &amp; Public Speaking Teacher</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2009 – 2010</span>
-            <div class="resume-detail">
-              <h3>Northshore Country Day School, Winnetka</h3>
-              <p>Middle School English &amp; French Teacher</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2008 – 2010</span>
-            <div class="resume-detail">
-              <h3>Elmhurst College, Elmhurst</h3>
-              <p>Adjunct Assistant Professor</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2005 – 2009</span>
-            <div class="resume-detail">
-              <h3>Driscoll Catholic High School, Addison</h3>
-              <p>Senior English Teacher &amp; Department Chair</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2005 – 2009</span>
-            <div class="resume-detail">
-              <h3>St. Mary's University, Winona</h3>
-              <p>Adjunct Assistant Professor</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1996 – 2000</span>
-            <div class="resume-detail">
-              <h3>North Central College, Naperville</h3>
-              <p>Assistant Professor, English &amp; Communication</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1986 – 1994</span>
-            <div class="resume-detail">
-              <h3>New York University, Stern School of Business, New York</h3>
-              <p>Assistant Professor, Managerial Communication</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1986 – 1987</span>
-            <div class="resume-detail">
-              <h3>St. Vincent's College, Staten Island</h3>
-              <p>Assistant Dean &amp; Director</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1985 – 1987</span>
-            <div class="resume-detail">
-              <h3>St. John's University, Queens</h3>
-              <p>Assistant Professor, English</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1982 – 1983</span>
-            <div class="resume-detail">
-              <h3>Macy's Flagship Store, New York</h3>
-              <p>Manager</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1977 – 1982</span>
-            <div class="resume-detail">
-              <h3>American Home Products Corporation, New York &amp; U.K.</h3>
-              <p>International Sales &amp; Marketing Manager</p>
-            </div>
-          </div>
+          <div class="resume-item reveal"><span class="resume-date">2016 – Present</span><div class="resume-detail"><h3>Northshore Country Day School, Winnetka</h3><p>Middle School English &amp; Public Speaking Teacher</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2009 – 2010</span><div class="resume-detail"><h3>Northshore Country Day School, Winnetka</h3><p>Middle School English &amp; French Teacher</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2008 – 2010</span><div class="resume-detail"><h3>Elmhurst College, Elmhurst</h3><p>Adjunct Assistant Professor</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2005 – 2009</span><div class="resume-detail"><h3>Driscoll Catholic High School, Addison</h3><p>Senior English Teacher &amp; Department Chair</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2005 – 2009</span><div class="resume-detail"><h3>St. Mary's University, Winona</h3><p>Adjunct Assistant Professor</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1996 – 2000</span><div class="resume-detail"><h3>North Central College, Naperville</h3><p>Assistant Professor, English &amp; Communication</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1986 – 1994</span><div class="resume-detail"><h3>New York University, Stern School of Business</h3><p>Assistant Professor, Managerial Communication</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1986 – 1987</span><div class="resume-detail"><h3>St. Vincent's College, Staten Island</h3><p>Assistant Dean &amp; Director</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1985 – 1987</span><div class="resume-detail"><h3>St. John's University, Queens</h3><p>Assistant Professor, English</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1982 – 1983</span><div class="resume-detail"><h3>Macy's Flagship Store, New York</h3><p>Manager</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1977 – 1982</span><div class="resume-detail"><h3>American Home Products Corporation, New York &amp; U.K.</h3><p>International Sales &amp; Marketing Manager</p></div></div>
         </div>
-
         <h2 class="reveal">Honors, Awards, Grants &amp; Publications</h2>
         <div class="resume-list">
-          <div class="resume-item reveal">
-            <span class="resume-date">2018</span>
-            <div class="resume-detail">
-              <p>Echoes &amp; Reflections Grant — International Holocaust Seminar, Yad Vashem, Israel</p>
-              <p>Benefit Board Grant — Jewish history sites in Poland</p>
-              <p>Co-presented "Giving a Damn about Democracy" — Facing History's "On Democracy" Conference, Chicago</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2014</span>
-            <div class="resume-detail">
-              <p>Global Grant — Cambridge University, England</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2013</span>
-            <div class="resume-detail">
-              <p>Benefit Board Grant — Retracing her father's WWII journey through Italy</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2008</span>
-            <div class="resume-detail">
-              <p>Published <em>The Gunner Wore Petticoats</em>, a novel on the Civil War</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2002</span>
-            <div class="resume-detail">
-              <p>Village of Northbrook &amp; Fire Department recognition for <em>A Breed Apart</em></p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2001</span>
-            <div class="resume-detail">
-              <p>Published <em>A Breed Apart: The First One Hundred Years of the Northbrook Fire Department</em></p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1999</span>
-            <div class="resume-detail">
-              <p>National Science Foundation Grant — The Impact of Technology on Older Americans</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">1990</span>
-            <div class="resume-detail">
-              <p>Outstanding Professor, NYU Stern School of Business</p>
-              <p>Rudin Grant — Ethical Issues in Business</p>
-            </div>
-          </div>
+          <div class="resume-item reveal"><span class="resume-date">2018</span><div class="resume-detail"><p>Echoes &amp; Reflections Grant — International Holocaust Seminar, Yad Vashem, Israel</p><p>Benefit Board Grant — Jewish history sites in Poland</p><p>Co-presented "Giving a Damn about Democracy" — Facing History's "On Democracy" Conference, Chicago</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2014</span><div class="resume-detail"><p>Global Grant — Cambridge University, England</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2013</span><div class="resume-detail"><p>Benefit Board Grant — Retracing her father's WWII journey through Italy</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2008</span><div class="resume-detail"><p>Published <em>The Gunner Wore Petticoats</em>, a novel on the Civil War</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2002</span><div class="resume-detail"><p>Village of Northbrook &amp; Fire Department recognition for <em>A Breed Apart</em></p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2001</span><div class="resume-detail"><p>Published <em>A Breed Apart: The First One Hundred Years of the Northbrook Fire Department</em></p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1999</span><div class="resume-detail"><p>National Science Foundation Grant — The Impact of Technology on Older Americans</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">1990</span><div class="resume-detail"><p>Outstanding Professor, NYU Stern School of Business</p><p>Rudin Grant — Ethical Issues in Business</p></div></div>
         </div>
-
         <h2 class="reveal">Community Engagement</h2>
         <div class="resume-list">
-          <div class="resume-item reveal">
-            <span class="resume-date">2000 – Present</span>
-            <div class="resume-detail">
-              <p>Civil War Reenactor &amp; Presenter</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2000 – 2005</span>
-            <div class="resume-detail">
-              <p>Village Safety Commissioner &amp; Historical Society Speaker</p>
-            </div>
-          </div>
-          <div class="resume-item reveal">
-            <span class="resume-date">2000 – 2004</span>
-            <div class="resume-detail">
-              <p>Chair, Village of Northbrook Fourth of July Association</p>
-            </div>
-          </div>
+          <div class="resume-item reveal"><span class="resume-date">2000 – Present</span><div class="resume-detail"><p>Civil War Reenactor &amp; Presenter</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2000 – 2005</span><div class="resume-detail"><p>Village Safety Commissioner &amp; Historical Society Speaker</p></div></div>
+          <div class="resume-item reveal"><span class="resume-date">2000 – 2004</span><div class="resume-detail"><p>Chair, Village of Northbrook Fourth of July Association</p></div></div>
         </div>
-
       </div>
     </section>
 
     <!-- About -->
     <section id="mystory" class="tab-panel">
-      <div class="page-banner">
-        <h1>About</h1>
-      </div>
+      <div class="page-banner"><h1>About</h1></div>
       <div class="page-content about-page">
         <div class="about-hero-block reveal">
           <img src="author-photo.png" alt="Susan J. Schinleber" class="author-photo">
@@ -313,17 +420,12 @@
 
     <!-- Publications -->
     <section id="publications" class="tab-panel">
-      <div class="page-banner">
-        <h1>Publications</h1>
-      </div>
+      <div class="page-banner"><h1>Publications</h1></div>
       <div class="page-content">
         <div class="publication-list">
           <div class="publication-card reveal">
             <div class="book-cover-placeholder"><span>Coming Soon</span></div>
-            <div class="publication-info">
-              <h3>A Promise of Redemption</h3>
-              <p class="pub-meta">Coming Soon</p>
-            </div>
+            <div class="publication-info"><h3>A Promise of Redemption</h3><p class="pub-meta">Coming Soon</p></div>
           </div>
           <div class="publication-card reveal">
             <img src="gunner-wore-petticoats.jpg" alt="The Gunner Wore Petticoats book cover" class="book-cover">
@@ -348,171 +450,144 @@
 
     <!-- Presentations -->
     <section id="presentations" class="tab-panel">
-      <div class="page-banner">
-        <h1>Presentations</h1>
-      </div>
+      <div class="page-banner"><h1>Presentations</h1></div>
       <div class="page-content">
-
         <div class="topics-box reveal">
           <h2>Presentation Topics</h2>
           <p class="topics-intro">Dr. Schinleber offers presentations on a range of subjects, including:</p>
           <ul class="topics-list">
-            <li>Postwar Memory Culture</li>
-            <li>German Responses to the Holocaust, 1945&ndash;Present</li>
-            <li>Women and Work During and After the War</li>
-            <li>Women in German Film, 1933&ndash;Present</li>
-            <li>Twentieth-Century Genocides</li>
-            <li>Hitler&rsquo;s Other Targets</li>
-            <li>Nazi Propaganda</li>
-            <li>Germany Between the World Wars</li>
-            <li>Russian Memory Culture</li>
-            <li>Women in Nazi Germany</li>
-            <li>Resistance Heroines</li>
-            <li>Motherhood in Nazi Germany</li>
-            <li>The Holocaust by Bullets</li>
-            <li>Holocaust Memoir</li>
-            <li>Holocaust Fiction</li>
-            <li>Burying the Soldiers</li>
-            <li>Our Russian Allies</li>
-            <li>The Nazi Camp System</li>
+            <li>Postwar Memory Culture</li><li>German Responses to the Holocaust, 1945&ndash;Present</li>
+            <li>Women and Work During and After the War</li><li>Women in German Film, 1933&ndash;Present</li>
+            <li>Twentieth-Century Genocides</li><li>Hitler&rsquo;s Other Targets</li>
+            <li>Nazi Propaganda</li><li>Germany Between the World Wars</li>
+            <li>Russian Memory Culture</li><li>Women in Nazi Germany</li>
+            <li>Resistance Heroines</li><li>Motherhood in Nazi Germany</li>
+            <li>The Holocaust by Bullets</li><li>Holocaust Memoir</li>
+            <li>Holocaust Fiction</li><li>Burying the Soldiers</li>
+            <li>Our Russian Allies</li><li>The Nazi Camp System</li>
             <li>Teaching the Holocaust Through Art</li>
           </ul>
         </div>
-
         <p class="section-subtitle">A sampling of her presentations includes:</p>
-
         <div class="event-list">
-          <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2026</span>
-            </div>
+          <div class="event-card upcoming reveal">
+            <div class="event-date"><span class="day">2027</span></div>
             <div class="event-info">
-              <h3>The Holocaust Represented through the Art of Samuel Bak</h3>
-              <p>Northbrook Public Library</p>
+              <h3>Examining the Holocaust through the Art of Samuel Bak <span class="new-badge">Upcoming</span></h3>
+              <p>Rolling Meadows Public Library &middot; January 27, 2027</p>
             </div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2023</span>
-            </div>
-            <div class="event-info">
-              <h3>The Ghettos and Camps</h3>
-              <p>Leaf River Lions</p>
-            </div>
+            <div class="event-date"><span class="day">2026</span></div>
+            <div class="event-info"><h3>The Holocaust Represented through the Art of Samuel Bak</h3><p>Northbrook Public Library</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2023</span>
-            </div>
-            <div class="event-info">
-              <h3>Antisemitism: Myth and Reality</h3>
-              <p>World War Two Days, Rockford Historical Museum</p>
-            </div>
+            <div class="event-date"><span class="day">2023</span></div>
+            <div class="event-info"><h3>The Ghettos and Camps</h3><p>Leaf River Lions</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2022–23</span>
-            </div>
-            <div class="event-info">
-              <h3>Educating Students on the Holocaust</h3>
-              <p>World War Two Days, Rockford Historical Museum</p>
-            </div>
+            <div class="event-date"><span class="day">2023</span></div>
+            <div class="event-info"><h3>Antisemitism: Myth and Reality</h3><p>World War Two Days, Rockford Historical Museum</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2023</span>
-            </div>
-            <div class="event-info">
-              <h3>Why Didn't They Leave? The Plight of German Jewry in the 1930s</h3>
-              <p>Leaf River Lions</p>
-            </div>
+            <div class="event-date"><span class="day">2022–23</span></div>
+            <div class="event-info"><h3>Educating Students on the Holocaust</h3><p>World War Two Days, Rockford Historical Museum</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2022</span>
-            </div>
-            <div class="event-info">
-              <h3>Why Didn't They Leave? The Plight of German Jewry in the 1930s</h3>
-              <p>World War Two Days, Rockford Historical Museum</p>
-            </div>
+            <div class="event-date"><span class="day">2023</span></div>
+            <div class="event-info"><h3>Why Didn't They Leave? The Plight of German Jewry in the 1930s</h3><p>Leaf River Lions</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2018</span>
-            </div>
-            <div class="event-info">
-              <h3>Keynote Speaker, ADL's Regional Board Meeting</h3>
-              <p>Highland Park, Illinois</p>
-            </div>
+            <div class="event-date"><span class="day">2022</span></div>
+            <div class="event-info"><h3>Why Didn't They Leave? The Plight of German Jewry in the 1930s</h3><p>World War Two Days, Rockford Historical Museum</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2018</span>
-            </div>
-            <div class="event-info">
-              <h3>Giving a Damn about Democracy</h3>
-              <p>Co-presented at Facing History's Partner School Network's On Democracy Conference, Chicago</p>
-            </div>
+            <div class="event-date"><span class="day">2018</span></div>
+            <div class="event-info"><h3>Keynote Speaker, ADL's Regional Board Meeting</h3><p>Highland Park, Illinois</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2018</span>
-            </div>
-            <div class="event-info">
-              <h3>International Holocaust Seminar</h3>
-              <p>Yad Vashem, Israel &middot; Echoes and Reflections grant recipient</p>
-            </div>
+            <div class="event-date"><span class="day">2018</span></div>
+            <div class="event-info"><h3>Giving a Damn about Democracy</h3><p>Co-presented at Facing History's Partner School Network's On Democracy Conference, Chicago</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2018</span>
-            </div>
-            <div class="event-info">
-              <h3>Jewish History in Poland</h3>
-              <p>Benefit Board grant recipient, research at sites of Jewish history</p>
-            </div>
+            <div class="event-date"><span class="day">2018</span></div>
+            <div class="event-info"><h3>International Holocaust Seminar</h3><p>Yad Vashem, Israel &middot; Echoes and Reflections grant recipient</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2014</span>
-            </div>
-            <div class="event-info">
-              <h3>Cambridge University Study</h3>
-              <p>Cambridge University, England &middot; Global Grant recipient</p>
-            </div>
+            <div class="event-date"><span class="day">2018</span></div>
+            <div class="event-info"><h3>Jewish History in Poland</h3><p>Benefit Board grant recipient, research at sites of Jewish history</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2006</span>
-            </div>
-            <div class="event-info">
-              <h3>Everyday Life in 1900 Northbrook</h3>
-              <p>Northbrook Historical Society</p>
-            </div>
+            <div class="event-date"><span class="day">2014</span></div>
+            <div class="event-info"><h3>Cambridge University Study</h3><p>Cambridge University, England &middot; Global Grant recipient</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2005 – Present</span>
-            </div>
-            <div class="event-info">
-              <h3>A Women's Life During the Civil War</h3>
-              <p>Annual Meeting, Northbrook Historical Society</p>
-            </div>
+            <div class="event-date"><span class="day">2006</span></div>
+            <div class="event-info"><h3>Everyday Life in 1900 Northbrook</h3><p>Northbrook Historical Society</p></div>
           </div>
           <div class="event-card reveal">
-            <div class="event-date">
-              <span class="day">2000 – Present</span>
-            </div>
-            <div class="event-info">
-              <h3>Civil War Reenactor &amp; Presenter</h3>
-              <p>Historical presentations and reenactments</p>
-            </div>
+            <div class="event-date"><span class="day">2005 – Present</span></div>
+            <div class="event-info"><h3>A Women's Life During the Civil War</h3><p>Annual Meeting, Northbrook Historical Society</p></div>
+          </div>
+          <div class="event-card reveal">
+            <div class="event-date"><span class="day">2000 – Present</span></div>
+            <div class="event-info"><h3>Civil War Reenactor &amp; Presenter</h3><p>Historical presentations and reenactments</p></div>
           </div>
         </div>
-
         <div class="cta-box reveal">
           <p>Interested in having Dr. Schinleber speak at your event?</p>
           <a href="#" class="btn btn-cta" data-tab="contact">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="tab-panel">
+      <div class="page-banner">
+        <h1>Blog</h1>
+        <p>Reflections on history, literature, war, memory, and the craft of writing.</p>
+      </div>
+      <div class="page-content">
+        <div class="blog-list">
+
+          <article class="blog-post reveal">
+            <div class="blog-post-header">
+              <div class="blog-post-meta">
+                <span class="blog-date">June 2026</span>
+                <span class="blog-tag">Modern Warfare</span>
+              </div>
+              <h2>An Essay on Modern War: The Crucible of Transparency</h2>
+            </div>
+            <div class="blog-post-body">
+              <p>On May 30, 2026, the <em>Economist</em> published a very long piece on the status of modern warfare. Written by the news magazine's defense editor, it details the many ways modern warfare is changing and how we think about and should prepare for war. The article begins, "It has never been a great time to be an infantryman. But today's conditions are especially pitiable. In the 'kill zone' imposed by both sides' drones in eastern Ukraine, the risk of finding yourself inside a lethal video game is omnipresent." The author concludes:</p>
+
+              <blockquote><p>"Both the war in Ukraine and the war over Iran are shaped by technology which has introduced a new transparency to the places and situations in which armies fight. This transparency is not complete. It is always partial, always sporadic, always subject to change."</p></blockquote>
+
+              <p>Comparing the wars in Ukraine and Iran, he writes that both were started by leaders of powerful countries believing in quick victory and both developed in ways those leaders did not anticipate. Then he asks whether technological changes are making the role of the defender easier? Or whether great powers are blundering into ill-advised wars that reflect the technologies of the day, what he calls "business as usual."</p>
+
+              <p>Returning to the subject of <em>tactical transparency</em>, he says it depends upon three things:</p>
+              <ul>
+                <li>More and better sensors</li>
+                <li>Precision firepower</li>
+                <li>Networks that convey actionable data</li>
+              </ul>
+
+              <p>Significantly, he concludes: "To reduce all this to drones is an oversimplification….To attribute to weapons the advantages that accrue to the systems that use them best has misled military minds in the past. It could do so again."</p>
+
+              <p>He allows that the drone is undeniably powerful. "Its manufacture uses supply chains that allow rapid evolution through endless innovation." Air Vice-Marshall Simon Strasdin, who leads the British Integrated Warfare Centre, tells us that the code controlling drones is updated "every few days." Some people argue that drones are the future of warfare: "two sides endlessly tied down by small, cheap, and all-seeing killers." Others deride this as fanciful. Admiral Sir Tony Radkin, Britain's Chief of Defense at the time, noted that "Israel's strikes on Iran [in 2024] 'wiped out the entirety of the enemy's air defenses in a single sortie, on a single night, using long-range, stand-off weaponry, exquisite targeting, and fifth generation technology.'" But armies "rarely get the wars they want." Air superiority has become harder to establish and "below 4,000 meters (13,000 feet), the battlefield is increasingly 'decoupled' from what happens above that ceiling."</p>
+
+              <p>Today's battlefield is dominated by the profusion of drones. Just as big navies are "challenged by the use of mines, shore batteries, and small craft in the confined shallows of big oceans, so big air forces must worry about the shallows at the bottom of that atmosphere." Airpower may not be able to prevent close fighting on the ground. Air superiority is increasingly being viewed as something to be attained at specific times and in specific places. Successful armies of the future must leverage the combined strength of armour, infantry, artillery, and air power, just as the Germans did after WWI. He concludes, "Training is the way to develop the tactics that will bring success in the future." The way forward is to learn from people who are doing it. He writes that "Observers in Ukraine are a boon to European armies. So are Ukrainian veterans."</p>
+
+              <p>One of his more interesting observations is the claim: "Just as new ways of war are always more complicated than the success of a single type of weapon, the decline of old ways is more than the irrelevance of yesterday's champion. …The tank is a case in point." While drone operators will tell you the tank is dead, tanks can be deployed to exploit pockets of superiority on the battlefield. What he calls "the long tail of traditional weapons" can be seen in other recent conflicts. In the skirmish between India and Pakistan last year, "the most serious strikes were not carried out by drones, as extensive press coverage may have implied, but by piloted jets firing long-range, high-end missiles." All of which suggests that militaries should be investing in what generals call "a high-low" mix of older and newer technologies. British observers calculate that in today's war with Iran, the U.S. destroyed 30% of Iran's missile capability — which they called "impressive." The American military hit 13,000 targets and the Israelis hitting thousands more. Even so, this was not enough. The author asks, had the daily target of 400 strikes been increased to 4,000, "would it have been commensurately more effective?" — concluding "There is a tendency for targeting — and in particular quantitative measures of targeting — to become a substitute for strategy."</p>
+
+              <p>In addition to evolving technology, the author highlights another aspect of modern warfare: its sanitization through screens. "Pentagon and White House social-media accounts have revelled in recorded real-world destruction" but seeing the war through a screen protects us from the horror soldiers know firsthand. In a sobering conclusion, the author asks, "Where talk of killing is lionized, can killing for the sake of talk be far behind?" Analysis has shown us that the post-WWII spell of peace "would need to last another century at least to become a statistically significant trend." "And then there are the nukes." What if China tries to take Taiwan? What if the United States goes to war with China? "What will the transparency revolution look like when tested on, over and under the surface of a vast, hard to monitor ocean?"</p>
+
+              <p>The Uppsala Conflict Data Programme reported that <strong>in 2025, there were sixty-five active state-based conflicts</strong> — "wars where at least one belligerent is a state, and which result in at least 25 battlefield-related deaths in a year." This is "the highest level since its records began in 1946." Even this statistic is somewhat "misleading" due to greatly improved medical options available that undoubtedly reduce the number of battlefield fatalities, thereby complicating historical comparisons. Nevertheless, I think I can write with confidence that few if any of us could name more than a handful of those wars.</p>
+
+              <p>At some point during my studies of World War II, I began to wonder if wars were the natural state of mankind and outbreaks of peace the anomaly. Despite our many attempts to prevent them, to end them, to negotiate our way around them, wars descend upon us. And it is undeniable that some humans desire war, whether from ideological or nationalistic or some other motivation. Wars are good for business — some people get very rich from war. Wars are good for medical breakthroughs and for other technological advances. But wars are bad for families, for relationships, for peace of mind. Wars are bad for the mind, for the human body, for the spirit. Wars are bad for the land and for the creatures that live on and around it. And according to von Clausewitz, war represents the continuation of politics by other means. Wars are just another way of getting your own way.</p>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -524,25 +599,13 @@
         <p>Whether you're a reader, fellow writer, event organizer, or just want to say hello — Dr. Schinleber would love to hear from you.</p>
       </div>
       <div class="page-content">
-        <form class="contact-form" id="contactForm" action="mailto:sschinleber@gmail.com" method="POST" enctype="text/plain">
+        <form class="contact-form" id="contactForm">
           <div class="form-row">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
-            </div>
+            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" required></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
           </div>
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject">
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
-          </div>
+          <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject"></div>
+          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="6" required></textarea></div>
           <button type="submit" class="btn">Send Message</button>
         </form>
       </div>
@@ -556,6 +619,98 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('[data-tab]');
+  const panels = document.querySelectorAll('.tab-panel');
+  const menuToggle = document.querySelector('.menu-toggle');
+  const siteNav = document.querySelector('.site-nav');
+  const header = document.querySelector('.site-header');
+  const marketingBox = document.getElementById('marketingBox');
+
+  function updateHeader() {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+        const index = Array.from(siblings).indexOf(entry.target);
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 80);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  function observeReveals() {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      revealObserver.observe(el);
+    });
+  }
+
+  function switchTab(tabId) {
+    panels.forEach(panel => {
+      panel.classList.toggle('active', panel.id === tabId);
+    });
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.toggle('active', link.dataset.tab === tabId);
+    });
+    siteNav.classList.remove('open');
+    if (tabId === 'home') {
+      const letters = document.querySelectorAll('.hw-word span');
+      marketingBox.classList.remove('visible');
+      letters.forEach(letter => {
+        letter.style.animation = 'none';
+        letter.offsetHeight;
+        letter.style.animation = '';
+      });
+      animateHandwriting();
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    requestAnimationFrame(() => { observeReveals(); });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab(link.dataset.tab);
+    });
+  });
+
+  menuToggle.addEventListener('click', () => {
+    siteNav.classList.toggle('open');
+  });
+
+  function animateHandwriting() {
+    const letters = document.querySelectorAll('.hw-word span');
+    letters.forEach((letter, i) => {
+      letter.style.animationDelay = `${i * 0.09}s`;
+    });
+    marketingBox.classList.remove('visible');
+    setTimeout(() => { marketingBox.classList.add('visible'); }, 1200);
+  }
+  animateHandwriting();
+  observeReveals();
+
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.querySelector('#name').value;
+      const email = form.querySelector('#email').value;
+      const subject = form.querySelector('#subject').value || 'Website Contact';
+      const message = form.querySelector('#message').value;
+      const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      const mailto = `mailto:sschinleber@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
+  }
+});
+  </script>
 </body>
 </html>
