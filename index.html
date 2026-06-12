@@ -291,6 +291,37 @@ img { max-width: 100%; display: block; }
   .blog-post-body { padding: 20px 22px 28px; }
   .blog-post-header h2 { font-size: 1.3rem; }
 }
+  
+/* ===== Blog Accordion ===== */
+.blog-post-header {
+  cursor: pointer;
+  user-select: none;
+}
+.blog-post-header::after {
+  content: '';
+  display: block;
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--color-gold);
+  margin-top: 14px;
+  transition: transform 0.3s ease;
+}
+.blog-post.open .blog-post-header::after {
+  transform: rotate(180deg);
+}
+.blog-post-body {
+  display: none;
+  animation: bodyFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.blog-post.open .blog-post-body {
+  display: block;
+}
+@keyframes bodyFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
   </style>
 </head>
 <body>
@@ -705,6 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       animateHandwriting();
     }
+    if (tabId === 'blog') { initBlogAccordion(); }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     requestAnimationFrame(() => { observeReveals(); });
   }
@@ -730,6 +762,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   animateHandwriting();
   observeReveals();
+
+  // Blog accordion
+  function initBlogAccordion() {
+    document.querySelectorAll('.blog-post').forEach(post => {
+      // collapse all first
+      post.classList.remove('open');
+      const header = post.querySelector('.blog-post-header');
+      if (!header._accordionBound) {
+        header.addEventListener('click', () => {
+          const isOpen = post.classList.contains('open');
+          // close all
+          document.querySelectorAll('.blog-post').forEach(p => p.classList.remove('open'));
+          // open clicked if it was closed
+          if (!isOpen) post.classList.add('open');
+        });
+        header._accordionBound = true;
+      }
+    });
+    // Open the first post by default
+    const first = document.querySelector('.blog-post');
+    if (first) first.classList.add('open');
+  }
+
 
   const form = document.getElementById('contactForm');
   if (form) {
