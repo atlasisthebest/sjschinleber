@@ -269,12 +269,7 @@ img { max-width: 100%; display: block; }
 .blog-tag { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #7a5c1e; background: #faeeda; padding: 3px 10px; border-radius: 4px; }
 .blog-post-header { cursor: pointer; user-select: none; }
 .blog-post-header h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; color: var(--color-navy); line-height: 1.3; }
-.blog-post-header:hover
-.blog-toggle-btn svg { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
-.blog-post.collapsed .blog-toggle-btn svg { transform: rotate(-90deg); }
 .blog-post-body { padding: 28px 36px 36px; overflow: hidden; max-height: 2000px; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), padding 0.3s ease, opacity 0.3s ease; opacity: 1; }
-.blog-post.collapsed .blog-post-body { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
-.blog-post.collapsed .blog-post-header { border-bottom: none; }
 .blog-post-body p { font-size: 0.97rem; line-height: 1.85; color: var(--color-text-light); margin-bottom: 18px; }
 .blog-post-body p:last-child { margin-bottom: 0; }
 .blog-post-body blockquote { margin: 24px 0; padding: 18px 24px; background: #faf7f2; border-left: 3px solid var(--color-gold); border-radius: 0 8px 8px 0; }
@@ -293,33 +288,36 @@ img { max-width: 100%; display: block; }
 }
 
   
+
 /* ===== Blog Accordion ===== */
 .blog-post-header {
   cursor: pointer;
   user-select: none;
-  position: relative;
 }
 .blog-toggle-icon {
   display: inline-block;
-  margin-left: 12px;
-  font-size: 0.75rem;
+  margin-left: 10px;
+  font-size: 0.7rem;
   color: var(--color-gold);
   vertical-align: middle;
   transition: transform 0.3s ease;
-  line-height: 1;
 }
 .blog-post.open .blog-toggle-icon {
   transform: rotate(180deg);
 }
 .blog-post-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-  opacity: 0;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease, padding 0.3s ease !important;
 }
 .blog-post.open .blog-post-body {
-  max-height: 9999px;
-  opacity: 1;
+  max-height: 9999px !important;
+  opacity: 1 !important;
+  padding-top: 28px !important;
+  padding-bottom: 36px !important;
 }
 
   </style>
@@ -756,25 +754,25 @@ document.addEventListener('DOMContentLoaded', () => {
   animateHandwriting();
   observeReveals();
 
-  // ── Blog accordion ──────────────────────────────────────────
+
+
+  // Blog accordion
   function initBlogAccordion() {
     const posts = document.querySelectorAll('.blog-post');
-    posts.forEach(post => {
+    posts.forEach(function(post) {
       post.classList.remove('open');
-      const header = post.querySelector('.blog-post-header');
+      var header = post.querySelector('.blog-post-header');
       if (header && !header._accordionBound) {
-        header.addEventListener('click', () => {
-          const isOpen = post.classList.contains('open');
-          posts.forEach(p => p.classList.remove('open'));
+        header.addEventListener('click', function() {
+          var isOpen = post.classList.contains('open');
+          posts.forEach(function(p) { p.classList.remove('open'); });
           if (!isOpen) post.classList.add('open');
         });
         header._accordionBound = true;
       }
     });
-    // open first post by default
     if (posts.length) posts[0].classList.add('open');
   }
-
 
 
   const form = document.getElementById('contactForm');
