@@ -291,35 +291,37 @@ img { max-width: 100%; display: block; }
   .blog-post-body { padding: 20px 22px 28px; }
   .blog-post-header h2 { font-size: 1.3rem; }
 }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
   
 /* ===== Blog Accordion ===== */
 .blog-post-header {
   cursor: pointer;
   user-select: none;
+  position: relative;
 }
-.blog-post-header::after {
-  content: '';
-  display: block;
-  width: 0; height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 7px solid var(--color-gold);
-  margin-top: 14px;
+.blog-toggle-icon {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  vertical-align: middle;
   transition: transform 0.3s ease;
+  line-height: 1;
 }
-.blog-post.open .blog-post-header::after {
+.blog-post.open .blog-toggle-icon {
   transform: rotate(180deg);
 }
 .blog-post-body {
-  display: none;
-  animation: bodyFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  opacity: 0;
 }
 .blog-post.open .blog-post-body {
-  display: block;
-}
-@keyframes bodyFadeIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  max-height: 9999px;
+  opacity: 1;
 }
 
   </style>
@@ -595,7 +597,7 @@ img { max-width: 100%; display: block; }
                 <span class="blog-date">June 2026</span>
                 <span class="blog-tag">Theatre</span>
               </div>
-              <h2>Leopoldstadt</h2>
+              <h2>Leopoldstadt <span class="blog-toggle-icon" aria-hidden="true">&#9650;</span></h2>
             </div>
             <div class="blog-post-body">
               <p>Thank you granddaughter for continuing to grow in the womb and thank you to her mother for hanging in there &mdash; and this means, we were able to attend <em>Leopoldstadt</em>.</p>
@@ -736,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       animateHandwriting();
     }
-    if (tabId === 'blog') { initBlogAccordion(); }
+    if (tabId === 'blog') { setTimeout(initBlogAccordion, 50); }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     requestAnimationFrame(() => { observeReveals(); });
   }
@@ -763,27 +765,25 @@ document.addEventListener('DOMContentLoaded', () => {
   animateHandwriting();
   observeReveals();
 
-  // Blog accordion
+  // ── Blog accordion ──────────────────────────────────────────
   function initBlogAccordion() {
-    document.querySelectorAll('.blog-post').forEach(post => {
-      // collapse all first
+    const posts = document.querySelectorAll('.blog-post');
+    posts.forEach(post => {
       post.classList.remove('open');
       const header = post.querySelector('.blog-post-header');
-      if (!header._accordionBound) {
+      if (header && !header._accordionBound) {
         header.addEventListener('click', () => {
           const isOpen = post.classList.contains('open');
-          // close all
-          document.querySelectorAll('.blog-post').forEach(p => p.classList.remove('open'));
-          // open clicked if it was closed
+          posts.forEach(p => p.classList.remove('open'));
           if (!isOpen) post.classList.add('open');
         });
         header._accordionBound = true;
       }
     });
-    // Open the first post by default
-    const first = document.querySelector('.blog-post');
-    if (first) first.classList.add('open');
+    // open first post by default
+    if (posts.length) posts[0].classList.add('open');
   }
+
 
 
   const form = document.getElementById('contactForm');
