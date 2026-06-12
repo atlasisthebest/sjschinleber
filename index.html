@@ -269,9 +269,7 @@ img { max-width: 100%; display: block; }
 .blog-tag { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #7a5c1e; background: #faeeda; padding: 3px 10px; border-radius: 4px; }
 .blog-post-header { cursor: pointer; user-select: none; }
 .blog-post-header h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 500; color: var(--color-navy); line-height: 1.3; }
-.blog-toggle-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-.blog-toggle-btn { flex-shrink: 0; width: 28px; height: 28px; margin-top: 4px; background: rgba(196,162,101,0.1); border: 1px solid rgba(196,162,101,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-.blog-post-header:hover .blog-toggle-btn { background: rgba(196,162,101,0.2); border-color: var(--color-gold); }
+.blog-post-header:hover
 .blog-toggle-btn svg { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
 .blog-post.collapsed .blog-toggle-btn svg { transform: rotate(-90deg); }
 .blog-post-body { padding: 28px 36px 36px; overflow: hidden; max-height: 2000px; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), padding 0.3s ease, opacity 0.3s ease; opacity: 1; }
@@ -611,19 +609,12 @@ img { max-width: 100%; display: block; }
           </article>
 
           <article class="blog-post reveal">
-            <div class="blog-post-header" onclick="togglePost(this)">
+            <div class="blog-post-header">
               <div class="blog-post-meta">
                 <span class="blog-date">June 2026</span>
                 <span class="blog-tag">Modern Warfare</span>
               </div>
-              <div class="blog-toggle-row">
-                <h2>An Essay on Modern War: The Crucible of Transparency</h2>
-                <div class="blog-toggle-btn">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 4L6 8L10 4" stroke="#c4a265" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              </div>
+              <h2>An Essay on Modern War: The Crucible of Transparency <span class="blog-toggle-icon" aria-hidden="true">&#9650;</span></h2>
             </div>
             <div class="blog-post-body">
               <p>On May 30, 2026, the <em>Economist</em> published a very long piece on the status of modern warfare. Written by the news magazine's defense editor, it details the many ways modern warfare is changing and how we think about and should prepare for war. The article begins, "It has never been a great time to be an infantryman. But today's conditions are especially pitiable. In the 'kill zone' imposed by both sides' drones in eastern Ukraine, the risk of finding yourself inside a lethal video game is omnipresent." The author concludes:</p>
@@ -798,11 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const mailto = `mailto:sschinleber@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailto;
     });
-  }
-  function togglePost(header) {
-    header.closest('.blog-post').classList.toggle('collapsed');
-  }
-});
+  });
   </script>
 </body>
 </html>
